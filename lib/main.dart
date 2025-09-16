@@ -117,9 +117,11 @@ class SmileyPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final radius = min(size.width, size.height) / 2;
     final center = Offset(size.width / 2, size.height / 2);
+
     // Draw the body
     final paint = Paint()..color = Colors.yellow;
     canvas.drawCircle(center, radius, paint);
+
     // Draw the mouth
     final smilePaint = Paint()
       ..style = PaintingStyle.stroke
@@ -131,6 +133,7 @@ class SmileyPainter extends CustomPainter {
       false,
       smilePaint,
     );
+
     // Draw the eyes
     canvas.drawCircle(
       Offset(center.dx - radius / 2, center.dy - radius / 2),
