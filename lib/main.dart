@@ -115,12 +115,12 @@ class SmileyPainter extends CustomPainter {
 
     // Draw the eyes
     canvas.drawCircle(
-      Offset(center.dx - radius / 2, center.dy - radius / 2),
-      10,
+      Offset(center.dx - radius / 2.5, center.dy - radius / 2.5),
+      10, // size
       Paint(),
     );
     canvas.drawCircle(
-      Offset(center.dx + radius / 2, center.dy - radius / 2),
+      Offset(center.dx + radius / 2.5, center.dy - radius / 2.5),
       10,
       Paint(),
     );
@@ -137,28 +137,34 @@ class FrownyPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final radius = min(size.width, size.height) / 2;
     final center = Offset(size.width / 2, size.height / 2);
+
     // Draw the body
     final paint = Paint()..color = Colors.yellow;
     canvas.drawCircle(center, radius, paint);
+
     // Draw the frowny mouth
     final mouthPaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 10;
     canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius / 2),
+      Rect.fromCircle(
+        center: Offset(size.width / 2, size.height / 1.4),
+        radius: radius / 2,
+      ),
       pi,
       pi,
       false,
       mouthPaint,
     );
+
     // Draw the eyes
     canvas.drawCircle(
-      Offset(center.dx - radius / 2, center.dy - radius / 2),
-      10,
+      Offset(center.dx - radius / 2.5, center.dy - radius / 2.5),
+      10, // size
       Paint(),
     );
     canvas.drawCircle(
-      Offset(center.dx + radius / 2, center.dy - radius / 2),
+      Offset(center.dx + radius / 2.5, center.dy - radius / 2.5),
       10,
       Paint(),
     );
