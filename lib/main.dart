@@ -62,7 +62,7 @@ Column party() {
         'Party Face',
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
-      SizedBox(height: 30),
+      SizedBox(height: 50),
       SizedBox(
         height: 200,
         child: CustomPaint(
@@ -216,9 +216,8 @@ class PartyPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
     final hatPath = Path()
       ..moveTo(center.dx - 50, center.dy - 70) // bottom left
-      ..lineTo(center.dx + 50, center.dy - 70) // bottom right
-      //..lineTo(center.dx - 20, center.dy - 120) // top
-      ..lineTo(center.dx, center.dy - 120) // top
+      ..lineTo(center.dx + 40, center.dy - 70) // bottom right
+      ..lineTo(center.dx - 20, center.dy - 150) // top
       ..close();
     canvas.drawPath(hatPath, hatPaint);
   }
