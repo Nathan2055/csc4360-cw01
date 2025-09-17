@@ -210,10 +210,34 @@ class PartyPainter extends CustomPainter {
       Paint(),
     );
 
+    // Background gradient
+    final gradient1 = RadialGradient(
+      center: Alignment.center,
+      radius: 1,
+      colors: [Colors.red, Colors.yellow],
+    );
+
+    // Background gradient
+    final gradient2 = RadialGradient(
+      center: Alignment.center,
+      radius: 0.75,
+      colors: [Colors.red, Colors.red, Colors.purple],
+    );
+
+    // Background gradient
+    final gradient3 = RadialGradient(
+      center: Alignment.center,
+      radius: 0.5,
+      colors: [Colors.orange, Colors.red],
+    );
+
     // Draw the party hat
     final hatPaint = Paint()
-      ..color = Colors.red
-      ..style = PaintingStyle.fill;
+      ..shader = gradient2.createShader(
+        Rect.fromLTWH(0, 0, size.width, size.height),
+      );
+    //..color = Colors.red
+    //..style = PaintingStyle.fill;
     final hatPath = Path()
       ..moveTo(center.dx - 50, center.dy - 70) // bottom left
       ..lineTo(center.dx + 40, center.dy - 70) // bottom right
