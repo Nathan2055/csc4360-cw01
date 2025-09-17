@@ -36,6 +36,25 @@ Column smiley() {
   );
 }
 
+Column party() {
+  return Column(
+    children: [
+      Text(
+        'Party Face',
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+      SizedBox(height: 10),
+      SizedBox(
+        height: 200,
+        child: CustomPaint(
+          painter: PartyPainter(),
+          size: const Size(double.infinity, 200),
+        ),
+      ),
+    ],
+  );
+}
+
 class ShapesDemoScreen extends StatelessWidget {
   const ShapesDemoScreen({super.key});
   @override
@@ -46,7 +65,7 @@ class ShapesDemoScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [smiley()],
+          children: [smiley(), party()],
         ),
       ),
     );
@@ -54,6 +73,47 @@ class ShapesDemoScreen extends StatelessWidget {
 }
 
 class SmileyPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final radius = min(size.width, size.height) / 2;
+    final center = Offset(size.width / 2, size.height / 2);
+
+    // Draw the body
+    final paint = Paint()..color = Colors.yellow;
+    canvas.drawCircle(center, radius, paint);
+
+    // Draw the mouth
+    final smilePaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 10;
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: radius / 2),
+      0,
+      pi,
+      false,
+      smilePaint,
+    );
+
+    // Draw the eyes
+    canvas.drawCircle(
+      Offset(center.dx - radius / 2, center.dy - radius / 2),
+      10,
+      Paint(),
+    );
+    canvas.drawCircle(
+      Offset(center.dx + radius / 2, center.dy - radius / 2),
+      10,
+      Paint(),
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+class PartyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final radius = min(size.width, size.height) / 2;
@@ -96,47 +156,6 @@ class SmileyPainter extends CustomPainter {
       ..lineTo(center.dx - 90, center.dy - 120) // top
       ..close();
     canvas.drawPath(hatPath, hatPaint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
-  }
-}
-
-class PartyPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final radius = min(size.width, size.height) / 2;
-    final center = Offset(size.width / 2, size.height / 2);
-
-    // Draw the body
-    final paint = Paint()..color = Colors.yellow;
-    canvas.drawCircle(center, radius, paint);
-
-    // Draw the mouth
-    final smilePaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 10;
-    canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius / 2),
-      0,
-      pi,
-      false,
-      smilePaint,
-    );
-
-    // Draw the eyes
-    canvas.drawCircle(
-      Offset(center.dx - radius / 2, center.dy - radius / 2),
-      10,
-      Paint(),
-    );
-    canvas.drawCircle(
-      Offset(center.dx + radius / 2, center.dy - radius / 2),
-      10,
-      Paint(),
-    );
   }
 
   @override
