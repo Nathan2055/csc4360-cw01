@@ -36,65 +36,6 @@ Column smiley() {
   );
 }
 
-Column task1() {
-  return Column(
-    children: [
-      const Text(
-        'Task 1: Basic Shapes',
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
-      const SizedBox(height: 10),
-      SizedBox(
-        height: 200,
-        child: CustomPaint(
-          painter: BasicShapesPainter(),
-          size: const Size(double.infinity, 200),
-        ),
-      ),
-      const SizedBox(height: 20),
-    ],
-  );
-}
-
-Column task2() {
-  return Column(
-    children: [
-      const Text(
-        'Task 2: Combined Shapes (Abstract Design)',
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
-      const SizedBox(height: 10),
-      SizedBox(
-        height: 300,
-        child: CustomPaint(
-          painter: CombinedShapesPainter(),
-          size: const Size(double.infinity, 300),
-        ),
-      ),
-      const SizedBox(height: 20),
-    ],
-  );
-}
-
-Column task3() {
-  return Column(
-    children: [
-      const Text(
-        'Task 3: Styled Shapes',
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
-      const SizedBox(height: 10),
-      SizedBox(
-        height: 300,
-        child: CustomPaint(
-          painter: StyledShapesPainter(),
-          size: const Size(double.infinity, 300),
-        ),
-      ),
-    ],
-  );
-}
-
 class ShapesDemoScreen extends StatelessWidget {
   const ShapesDemoScreen({super.key});
   @override
@@ -105,7 +46,7 @@ class ShapesDemoScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [smiley(), task1(), task2(), task3()],
+          children: [smiley()],
         ),
       ),
     );
@@ -113,6 +54,57 @@ class ShapesDemoScreen extends StatelessWidget {
 }
 
 class SmileyPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final radius = min(size.width, size.height) / 2;
+    final center = Offset(size.width / 2, size.height / 2);
+
+    // Draw the body
+    final paint = Paint()..color = Colors.yellow;
+    canvas.drawCircle(center, radius, paint);
+
+    // Draw the mouth
+    final smilePaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 10;
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: radius / 1.8),
+      0,
+      pi,
+      false,
+      smilePaint,
+    );
+
+    // Draw the eyes
+    canvas.drawCircle(
+      Offset(center.dx - radius / 2.5, center.dy - radius / 2.5),
+      10, // size
+      Paint(),
+    );
+    canvas.drawCircle(
+      Offset(center.dx + radius / 2.5, center.dy - radius / 2.5),
+      10,
+      Paint(),
+    );
+
+    final hatPaint = Paint()
+      ..color = Colors.red
+      ..style = PaintingStyle.fill;
+    final hatPath = Path()
+      ..moveTo(center.dx - 70, center.dy - 90) // bottom left
+      ..lineTo(center.dx - 40, center.dy - 90) // bottom right
+      ..lineTo(center.dx - 90, center.dy - 120) // top
+      ..close();
+    canvas.drawPath(hatPath, hatPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+class PartyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final radius = min(size.width, size.height) / 2;
