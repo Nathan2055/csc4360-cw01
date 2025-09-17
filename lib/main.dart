@@ -131,6 +131,7 @@ class SmileyPainter extends CustomPainter {
     return false;
   }
 }
+
 class FrownyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
