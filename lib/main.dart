@@ -62,7 +62,7 @@ Column party() {
         'Party Face',
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
-      SizedBox(height: 10),
+      SizedBox(height: 30),
       SizedBox(
         height: 200,
         child: CustomPaint(
@@ -84,7 +84,9 @@ class ShapesDemoScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [smiley(), frowny(), party()],
+          //children: [smiley(), frowny(), party()],
+          //only show party emoji for now
+          children: [party()],
         ),
       ),
     );
@@ -177,7 +179,7 @@ class FrownyPainter extends CustomPainter {
 class PartyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final radius = min(size.width, size.height) / 2;
+    final radius = min(size.width, size.height) / 2.25;
     final center = Offset(size.width / 2, size.height / 2);
 
     // Draw the body
@@ -213,9 +215,10 @@ class PartyPainter extends CustomPainter {
       ..color = Colors.red
       ..style = PaintingStyle.fill;
     final hatPath = Path()
-      ..moveTo(center.dx - 70, center.dy - 90) // bottom left
-      ..lineTo(center.dx - 40, center.dy - 90) // bottom right
-      ..lineTo(center.dx - 90, center.dy - 120) // top
+      ..moveTo(center.dx - 50, center.dy - 70) // bottom left
+      ..lineTo(center.dx + 50, center.dy - 70) // bottom right
+      //..lineTo(center.dx - 20, center.dy - 120) // top
+      ..lineTo(center.dx, center.dy - 120) // top
       ..close();
     canvas.drawPath(hatPath, hatPaint);
   }
