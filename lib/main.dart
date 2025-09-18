@@ -118,9 +118,9 @@ class _ShapesDemoAppState extends State<ShapesDemoApp> {
                     children: <Widget>[
                       DropdownMenu<IconLabel>(
                         controller: iconController,
-                        enableFilter: true,
+                        enableFilter: false,
                         requestFocusOnTap: true,
-                        leadingIcon: const Icon(Icons.search),
+                        leadingIcon: Icon(selectedIcon?.icon),
                         label: const Text('Icon'),
                         inputDecorationTheme: const InputDecorationTheme(
                           filled: true,
@@ -137,6 +137,23 @@ class _ShapesDemoAppState extends State<ShapesDemoApp> {
                   ),
                 ),
               ),
+              if (selectedIcon != null) Text('${selectedIcon?.label}'),
+              if (selectedIcon == null) Text('Empty'),
+              /*
+              if (selectedIcon?.label == 'Smiley Face') const Text('Smiley'),
+              if (selectedIcon?.label == 'Frowny Face') const Text('Frowny'),
+              if (selectedIcon?.label == 'Party Face') const Text('Party'),
+              if (selectedIcon?.label == 'Heart Face') const Text('Heart'),
+              if (selectedIcon == null) const Text('Empty'),
+              */
+              /*
+              if (selectedIcon?.label == 'Smiley Face') const Text('Smiley'),
+              if (selectedIcon?.label == 'Frowny Face') const Text('Frowny'),
+              if (selectedIcon?.label == 'Party Face') const Text('Party'),
+              if (selectedIcon?.label == 'Heart Face') const Text('Heart'),
+              if (selectedIcon == null) const Text('Empty'),
+              */
+              /*
               if (selectedIcon != null)
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -153,7 +170,8 @@ class _ShapesDemoAppState extends State<ShapesDemoApp> {
                   ),
                 )
               else
-                const Text('Please select a color and an icon.'),
+                const Text(''),
+              */
             ],
           ),
         ),
