@@ -69,6 +69,28 @@ Column party() {
   );
 }
 
+Column heart() {
+  return Column(
+    children: [
+      Text(
+        'Heart',
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+      SizedBox(height: 10),
+      SizedBox(
+        height: 200,
+        child: Text('ADD CALL TO HEART PAINTER'),
+        /*
+        child: CustomPaint(
+          painter: HeartPainter(),
+          size: const Size(double.infinity, 200),
+        ),
+        */
+      ),
+    ],
+  );
+}
+
 // Define dropdown menu
 typedef IconEntry = DropdownMenuEntry<IconLabel>;
 
@@ -137,41 +159,11 @@ class _ShapesDemoAppState extends State<ShapesDemoApp> {
                   ),
                 ),
               ),
-              if (selectedIcon != null) Text('${selectedIcon?.label}'),
-              if (selectedIcon == null) Text('Empty'),
-              /*
-              if (selectedIcon?.label == 'Smiley Face') const Text('Smiley'),
-              if (selectedIcon?.label == 'Frowny Face') const Text('Frowny'),
-              if (selectedIcon?.label == 'Party Face') const Text('Party'),
-              if (selectedIcon?.label == 'Heart Face') const Text('Heart'),
-              if (selectedIcon == null) const Text('Empty'),
-              */
-              /*
-              if (selectedIcon?.label == 'Smiley Face') const Text('Smiley'),
-              if (selectedIcon?.label == 'Frowny Face') const Text('Frowny'),
-              if (selectedIcon?.label == 'Party Face') const Text('Party'),
-              if (selectedIcon?.label == 'Heart Face') const Text('Heart'),
-              if (selectedIcon == null) const Text('Empty'),
-              */
-              /*
-              if (selectedIcon != null)
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('You selected a ${selectedIcon?.label}'),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Icon(selectedIcon?.icon),
-                      ),
-                    ],
-                  ),
-                )
-              else
-                const Text(''),
-              */
+              if (selectedIcon?.label == 'Smiley Face') smiley(),
+              if (selectedIcon?.label == 'Frowny Face') frowny(),
+              if (selectedIcon?.label == 'Party Face') party(),
+              if (selectedIcon?.label == 'Heart') heart(),
+              if (selectedIcon == null) const Text('Select an emoji above'),
             ],
           ),
         ),
