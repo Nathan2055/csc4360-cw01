@@ -126,45 +126,47 @@ class _ShapesDemoAppState extends State<ShapesDemoApp> {
       theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
       home: Scaffold(
         appBar: AppBar(title: const Text('Shapes Drawing Demo')),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      DropdownMenu<IconLabel>(
-                        controller: iconController,
-                        enableFilter: false,
-                        requestFocusOnTap: true,
-                        leadingIcon: Icon(selectedIcon?.icon),
-                        label: const Text('Icon'),
-                        inputDecorationTheme: const InputDecorationTheme(
-                          filled: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+        body: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        DropdownMenu<IconLabel>(
+                          controller: iconController,
+                          enableFilter: false,
+                          requestFocusOnTap: true,
+                          leadingIcon: Icon(selectedIcon?.icon),
+                          label: const Text('Icon'),
+                          inputDecorationTheme: const InputDecorationTheme(
+                            filled: true,
+                            contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+                          ),
+                          onSelected: (IconLabel? icon) {
+                            setState(() {
+                              selectedIcon = icon;
+                            });
+                          },
+                          dropdownMenuEntries: IconLabel.entries,
                         ),
-                        onSelected: (IconLabel? icon) {
-                          setState(() {
-                            selectedIcon = icon;
-                          });
-                        },
-                        dropdownMenuEntries: IconLabel.entries,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              if (selectedIcon?.label == 'Smiley Face') smiley(),
-              if (selectedIcon?.label == 'Frowny Face') frowny(),
-              if (selectedIcon?.label == 'Party Face') party(),
-              if (selectedIcon?.label == 'Heart') heart(),
-              if (selectedIcon == null) const Text('Select an emoji above'),
-            ],
+                if (selectedIcon?.label == 'Smiley Face') smiley(),
+                if (selectedIcon?.label == 'Frowny Face') frowny(),
+                if (selectedIcon?.label == 'Party Face') party(),
+                if (selectedIcon?.label == 'Heart') heart(),
+                if (selectedIcon == null) const Text('Select an emoji above'),
+              ],
+            ),
           ),
         ),
       ),
