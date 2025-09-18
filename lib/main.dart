@@ -50,49 +50,7 @@ Column frowny() {
   );
 }
 
-
-Column Mad() {
-  return Column(
-    children: [
-      Text(
-        'Mad Face',
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
-      SizedBox(height: 10),
-      SizedBox(
-        height: 200,
-        child: CustomPaint(
-          painter: MadPainter(),
-          size: const Size(double.infinity, 200),
-        ),
-      ),
-    ],
-  );
-}
-
-Column HeartEmoji() {
-  return Column(
-    children: [
-      Text(
-        'Heart Emoji',
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
-      SizedBox(height: 10),
-      SizedBox(
-        height: 200,
-        child: CustomPaint(
-          painter: HeartEmojiPainter(),
-          size: const Size(double.infinity, 200),
-        ),
-      ),
-    ],
-  );
-}
-
-
-
 Column party() {
-
   return Column(
     children: [
       Text(
@@ -111,23 +69,39 @@ Column party() {
   );
 }
 
-Column heart() {
+Column angry() {
   return Column(
     children: [
       Text(
-        'Heart',
+        'Angry Face',
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
       SizedBox(height: 10),
       SizedBox(
         height: 200,
-        child: Text('ADD CALL TO HEART PAINTER'),
-        /*
+        child: CustomPaint(
+          painter: AngryPainter(),
+          size: const Size(double.infinity, 200),
+        ),
+      ),
+    ],
+  );
+}
+
+Column heart() {
+  return Column(
+    children: [
+      Text(
+        'Heart Emoji',
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+      SizedBox(height: 10),
+      SizedBox(
+        height: 200,
         child: CustomPaint(
           painter: HeartPainter(),
           size: const Size(double.infinity, 200),
         ),
-        */
       ),
     ],
   );
@@ -299,111 +273,6 @@ class FrownyPainter extends CustomPainter {
     return false;
   }
 }
-class HeartEmojiPainter extends CustomPainter {
- @override
-  void paint(Canvas canvas, Size size) {
-    final fillPaint = Paint()
-      ..color = Colors.red
-      ..style = PaintingStyle.fill;
-
-    final outlinePaint = Paint()
-      ..color = Colors.black
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 3;
-
-    final dim = min(size.width, size.height);
-    final cx = size.width / 2;
-    final cy = size.height / 2;
-
-    final half = dim / 2;
-
-    final r = half * 0.95;
-    final bottomY = cy + r * 0.60;
-    final notchY = cy - r * 0.22;
-
-    final path = Path();
-    path.moveTo(cx, bottomY);
-    // Left lobe 
-    path.cubicTo(
-      cx - r * 1.20, cy + r * 0.40,
-      cx - r * 1.20, cy - r * 0.70,
-      cx,            notchY,
-    );
-    // Right lobe 
-    path.cubicTo(
-      cx + r * 1.20, cy - r * 0.70,
-      cx + r * 1.20, cy + r * 0.40,
-      cx,            bottomY,
-    );
-
-    path.close();
-
-    canvas.drawPath(path, fillPaint);
-    canvas.drawPath(path, outlinePaint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-
-}
-class MadPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final radius = min(size.width, size.height) / 2;
-    final center = Offset(size.width / 2, size.height / 2);
-
-    // Face 
-    final facePaint = Paint()..color = Colors.red;
-    canvas.drawCircle(center, radius, facePaint);
-
-    // Angry mouth 
-    final mouthPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 10
-      ..color = Colors.black;
-    canvas.drawArc(
-      Rect.fromCenter(
-        center: Offset(center.dx, center.dy + radius * 0.25),
-        width: radius,
-        height: radius,
-      ),
-      pi,
-      pi,
-      false,
-      mouthPaint,
-    );
-
-    // Eyes 
-    final eyePaint = Paint()..color = Colors.black;
-    final leftEye = Offset(center.dx - radius / 2, center.dy - radius / 3);
-    final rightEye = Offset(center.dx + radius / 2, center.dy - radius / 3);
-    canvas.drawCircle(leftEye, 10, eyePaint);
-    canvas.drawCircle(rightEye, 10, eyePaint);
-
-    // Eyebrows (angled lines)
-    final browPaint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 5
-      ..strokeCap = StrokeCap.round;
-
-
-    canvas.drawLine(
-      Offset(leftEye.dx - 15, leftEye.dy - 20), // outer edge
-      Offset(leftEye.dx + 15, leftEye.dy - 10), // inner edge
-      browPaint,
-    );
-
-    
-    canvas.drawLine(
-      Offset(rightEye.dx - 15, rightEye.dy - 10), // inner edge
-      Offset(rightEye.dx + 15, rightEye.dy - 20), // outer edge
-      browPaint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
 
 class PartyPainter extends CustomPainter {
   @override
@@ -458,6 +327,120 @@ class PartyPainter extends CustomPainter {
       ..lineTo(center.dx - 20, center.dy - 150) // top point
       ..close();
     canvas.drawPath(hatPath, hatPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+class HeartPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final fillPaint = Paint()
+      ..color = Colors.red
+      ..style = PaintingStyle.fill;
+
+    final outlinePaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3;
+
+    final dim = min(size.width, size.height);
+    final cx = size.width / 2;
+    final cy = size.height / 2;
+
+    final half = dim / 2;
+
+    final r = half * 0.95;
+    final bottomY = cy + r * 0.60;
+    final notchY = cy - r * 0.22;
+
+    final path = Path();
+    path.moveTo(cx, bottomY);
+    // Left lobe
+    path.cubicTo(
+      cx - r * 1.20,
+      cy + r * 0.40,
+      cx - r * 1.20,
+      cy - r * 0.70,
+      cx,
+      notchY,
+    );
+    // Right lobe
+    path.cubicTo(
+      cx + r * 1.20,
+      cy - r * 0.70,
+      cx + r * 1.20,
+      cy + r * 0.40,
+      cx,
+      bottomY,
+    );
+
+    path.close();
+
+    canvas.drawPath(path, fillPaint);
+    canvas.drawPath(path, outlinePaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+class AngryPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final radius = min(size.width, size.height) / 2;
+    final center = Offset(size.width / 2, size.height / 2);
+
+    // Face
+    final facePaint = Paint()..color = Colors.red;
+    canvas.drawCircle(center, radius, facePaint);
+
+    // Angry mouth
+    final mouthPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 10
+      ..color = Colors.black;
+    canvas.drawArc(
+      Rect.fromCenter(
+        center: Offset(center.dx, center.dy + radius * 0.25),
+        width: radius,
+        height: radius,
+      ),
+      pi,
+      pi,
+      false,
+      mouthPaint,
+    );
+
+    // Eyes
+    final eyePaint = Paint()..color = Colors.black;
+    final leftEye = Offset(center.dx - radius / 2, center.dy - radius / 3);
+    final rightEye = Offset(center.dx + radius / 2, center.dy - radius / 3);
+    canvas.drawCircle(leftEye, 10, eyePaint);
+    canvas.drawCircle(rightEye, 10, eyePaint);
+
+    // Eyebrows (angled lines)
+    final browPaint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = 5
+      ..strokeCap = StrokeCap.round;
+
+    canvas.drawLine(
+      Offset(leftEye.dx - 15, leftEye.dy - 20), // outer edge
+      Offset(leftEye.dx + 15, leftEye.dy - 10), // inner edge
+      browPaint,
+    );
+
+    canvas.drawLine(
+      Offset(rightEye.dx - 15, rightEye.dy - 10), // inner edge
+      Offset(rightEye.dx + 15, rightEye.dy - 20), // outer edge
+      browPaint,
+    );
   }
 
   @override
