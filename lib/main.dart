@@ -112,8 +112,9 @@ typedef IconEntry = DropdownMenuEntry<IconLabel>;
 
 enum IconLabel {
   smiley('Smiley Face', Icons.sentiment_satisfied_outlined),
-  frowny('Frowny Face', Icons.sentiment_very_dissatisfied),
+  frowny('Frowny Face', Icons.sentiment_dissatisfied),
   party('Party Face', Icons.celebration),
+  angry('Angry Face', Icons.sentiment_very_dissatisfied),
   heart('Heart', Icons.favorite);
 
   const IconLabel(this.label, this.icon);
@@ -180,6 +181,7 @@ class _ShapesDemoAppState extends State<ShapesDemoApp> {
                 if (selectedIcon?.label == 'Smiley Face') smiley(),
                 if (selectedIcon?.label == 'Frowny Face') frowny(),
                 if (selectedIcon?.label == 'Party Face') party(),
+                if (selectedIcon?.label == 'Angry Face') angry(),
                 if (selectedIcon?.label == 'Heart') heart(),
                 if (selectedIcon == null) const Text('Select an emoji above'),
               ],
