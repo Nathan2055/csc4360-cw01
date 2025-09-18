@@ -126,7 +126,8 @@ class _ShapesDemoAppState extends State<ShapesDemoApp> {
       theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
       home: Scaffold(
         appBar: AppBar(title: const Text('Shapes Drawing Demo')),
-        body: Center(
+        body: Align(
+          alignment: AlignmentGeometry.topCenter,
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
             child: Column(
