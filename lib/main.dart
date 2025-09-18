@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:collection/collection.dart';
 
 void main() {
   runApp(const ShapesDemoApp());
 }
 
-class ShapesDemoApp extends StatelessWidget {
+class ShapesDemoApp extends StatefulWidget {
   const ShapesDemoApp({super.key});
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Shapes Drawing Demo',
-      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
-      home: const ShapesDemoScreen(),
-    );
-  }
+  State<ShapesDemoApp> createState() => _ShapesDemoAppState();
 }
 
 Column smiley() {
@@ -104,7 +99,7 @@ Column party() {
         'Party Face',
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
-      SizedBox(height: 10),
+      SizedBox(height: 50),
       SizedBox(
         height: 200,
         child: CustomPaint(
@@ -116,20 +111,106 @@ Column party() {
   );
 }
 
-class ShapesDemoScreen extends StatelessWidget {
-  const ShapesDemoScreen({super.key});
+Column heart() {
+  return Column(
+    children: [
+      Text(
+        'Heart',
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+      SizedBox(height: 10),
+      SizedBox(
+        height: 200,
+        child: Text('ADD CALL TO HEART PAINTER'),
+        /*
+        child: CustomPaint(
+          painter: HeartPainter(),
+          size: const Size(double.infinity, 200),
+        ),
+        */
+      ),
+    ],
+  );
+}
+
+// Define dropdown menu
+typedef IconEntry = DropdownMenuEntry<IconLabel>;
+
+enum IconLabel {
+  smiley('Smiley Face', Icons.sentiment_satisfied_outlined),
+  frowny('Frowny Face', Icons.sentiment_very_dissatisfied),
+  party('Party Face', Icons.celebration),
+  heart('Heart', Icons.favorite);
+
+  const IconLabel(this.label, this.icon);
+  final String label;
+  final IconData icon;
+
+  static final List<IconEntry> entries = UnmodifiableListView<IconEntry>(
+    values.map<IconEntry>(
+      (IconLabel icon) => IconEntry(
+        value: icon,
+        label: icon.label,
+        leadingIcon: Icon(icon.icon),
+      ),
+    ),
+  );
+}
+
+class _ShapesDemoAppState extends State<ShapesDemoApp> {
+  final TextEditingController iconController = TextEditingController();
+  IconLabel? selectedIcon;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Shapes Drawing Demo')),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-
-          children: [Mad(),smiley(),frowny(), HeartEmoji(), party()],
-
-  
+    return MaterialApp(
+      title: 'Shapes Drawing Demo',
+      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Shapes Drawing Demo')),
+        body: Align(
+          alignment: AlignmentGeometry.topCenter,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        DropdownMenu<IconLabel>(
+                          controller: iconController,
+                          enableFilter: false,
+                          requestFocusOnTap: true,
+                          leadingIcon: Icon(selectedIcon?.icon),
+                          label: const Text('Icon'),
+                          inputDecorationTheme: const InputDecorationTheme(
+                            filled: true,
+                            contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+                          ),
+                          onSelected: (IconLabel? icon) {
+                            setState(() {
+                              selectedIcon = icon;
+                            });
+                          },
+                          dropdownMenuEntries: IconLabel.entries,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                if (selectedIcon?.label == 'Smiley Face') smiley(),
+                if (selectedIcon?.label == 'Frowny Face') frowny(),
+                if (selectedIcon?.label == 'Party Face') party(),
+                if (selectedIcon?.label == 'Heart') heart(),
+                if (selectedIcon == null) const Text('Select an emoji above'),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -143,11 +224,11 @@ class SmileyPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
 
     // Draw the body
-    final paint = Paint()..color = Colors.yellow;
-    canvas.drawCircle(center, radius, paint);
+    final bodyPaint = Paint()..color = Colors.yellow;
+    canvas.drawCircle(center, radius, bodyPaint);
 
     // Draw the mouth
-    final smilePaint = Paint()
+    final mouthPaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 10;
     canvas.drawArc(
@@ -155,17 +236,17 @@ class SmileyPainter extends CustomPainter {
       0,
       pi,
       false,
-      smilePaint,
+      mouthPaint,
     );
 
     // Draw the eyes
     canvas.drawCircle(
-      Offset(center.dx - radius / 2, center.dy - radius / 2),
-      10,
+      Offset(center.dx - radius / 2.5, center.dy - radius / 2.5),
+      10, // size
       Paint(),
     );
     canvas.drawCircle(
-      Offset(center.dx + radius / 2, center.dy - radius / 2),
+      Offset(center.dx + radius / 2.5, center.dy - radius / 2.5),
       10,
       Paint(),
     );
@@ -176,33 +257,38 @@ class SmileyPainter extends CustomPainter {
     return false;
   }
 }
+
 class FrownyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final radius = min(size.width, size.height) / 2;
     final center = Offset(size.width / 2, size.height / 2);
+    final mouthOffset = Offset(size.width / 2, size.height / 1.4);
+
     // Draw the body
-    final paint = Paint()..color = Colors.yellow;
-    canvas.drawCircle(center, radius, paint);
+    final bodyPaint = Paint()..color = Colors.yellow;
+    canvas.drawCircle(center, radius, bodyPaint);
+
     // Draw the frowny mouth
     final mouthPaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 10;
     canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius / 2),
+      Rect.fromCircle(center: mouthOffset, radius: radius / 2),
       pi,
       pi,
       false,
       mouthPaint,
     );
+
     // Draw the eyes
     canvas.drawCircle(
-      Offset(center.dx - radius / 2, center.dy - radius / 2),
-      10,
+      Offset(center.dx - radius / 2.5, center.dy - radius / 2.5),
+      10, // size
       Paint(),
     );
     canvas.drawCircle(
-      Offset(center.dx + radius / 2, center.dy - radius / 2),
+      Offset(center.dx + radius / 2.5, center.dy - radius / 2.5),
       10,
       Paint(),
     );
@@ -322,15 +408,15 @@ class MadPainter extends CustomPainter {
 class PartyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final radius = min(size.width, size.height) / 2;
+    final radius = min(size.width, size.height) / 2.25;
     final center = Offset(size.width / 2, size.height / 2);
 
     // Draw the body
-    final paint = Paint()..color = Colors.yellow;
-    canvas.drawCircle(center, radius, paint);
+    final bodyPaint = Paint()..color = Colors.yellow;
+    canvas.drawCircle(center, radius, bodyPaint);
 
     // Draw the mouth
-    final smilePaint = Paint()
+    final mouthPaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 10;
     canvas.drawArc(
@@ -338,7 +424,7 @@ class PartyPainter extends CustomPainter {
       0,
       pi,
       false,
-      smilePaint,
+      mouthPaint,
     );
 
     // Draw the eyes
@@ -353,13 +439,23 @@ class PartyPainter extends CustomPainter {
       Paint(),
     );
 
+    // Draw the party hat
+    // Define gradient
+    final hatGradient = RadialGradient(
+      center: Alignment.center,
+      radius: 0.75,
+      colors: [Colors.red, Colors.red, Colors.purple],
+    );
+    // Define painter
     final hatPaint = Paint()
-      ..color = Colors.red
-      ..style = PaintingStyle.fill;
+      ..shader = hatGradient.createShader(
+        Rect.fromLTWH(0, 0, size.width, size.height),
+      );
+    // Define path
     final hatPath = Path()
-      ..moveTo(center.dx - 70, center.dy - 90) // bottom left
-      ..lineTo(center.dx - 40, center.dy - 90) // bottom right
-      ..lineTo(center.dx - 90, center.dy - 120) // top
+      ..moveTo(center.dx - 50, center.dy - 70) // bottom left point
+      ..lineTo(center.dx + 40, center.dy - 70) // bottom right point
+      ..lineTo(center.dx - 20, center.dy - 150) // top point
       ..close();
     canvas.drawPath(hatPath, hatPaint);
   }
