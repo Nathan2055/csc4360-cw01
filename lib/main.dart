@@ -75,7 +75,7 @@ Column Mad() {
   );
 }
 
-/* Column HeartEmoji() {
+Column HeartEmoji() {
   return Column(
     children: [
       Text(
@@ -92,7 +92,7 @@ Column Mad() {
       ),
     ],
   );
-} */
+}
 
 
 
@@ -127,7 +127,7 @@ class ShapesDemoScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
 
-          children: [Mad(),smiley(),frowny(), party()],
+          children: [Mad(),smiley(),frowny(), HeartEmoji(), party()],
 
   
         ),
@@ -213,10 +213,10 @@ class FrownyPainter extends CustomPainter {
     return false;
   }
 }
-/* class HeartEmojiPainter extends CustomPainter {
+class HeartEmojiPainter extends CustomPainter {
  @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
+    final fillPaint = Paint()
       ..color = Colors.red
       ..style = PaintingStyle.fill;
 
@@ -225,46 +225,41 @@ class FrownyPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3;
 
-    final width = size.width;
-    final height = size.height;
+    final dim = min(size.width, size.height);
+    final cx = size.width / 2;
+    final cy = size.height / 2;
+
+    final half = dim / 2;
+
+    final r = half * 0.95;
+    final bottomY = cy + r * 0.60;
+    final notchY = cy - r * 0.22;
 
     final path = Path();
-
-    // A symmetric two-lobed heart with a top indentation (notch)
-    final bottomY = height * 0.78;
-    final notchY = height * 0.30;
-
-    path.moveTo(width / 2, bottomY);
-    // Left lobe up to notch
-    path.quadraticBezierTo(
-      width * 0.20, height * 0.62,
-      width * 0.25, height * 0.35,
+    path.moveTo(cx, bottomY);
+    // Left lobe 
+    path.cubicTo(
+      cx - r * 1.20, cy + r * 0.40,
+      cx - r * 1.20, cy - r * 0.70,
+      cx,            notchY,
     );
-    path.quadraticBezierTo(
-      width * 0.30, height * 0.20,
-      width / 2, notchY,
-    );
-    // Right lobe back to bottom tip
-    path.quadraticBezierTo(
-      width * 0.70, height * 0.20,
-      width * 0.75, height * 0.35,
-    );
-    path.quadraticBezierTo(
-      width * 0.80, height * 0.62,
-      width / 2, bottomY,
+    // Right lobe 
+    path.cubicTo(
+      cx + r * 1.20, cy - r * 0.70,
+      cx + r * 1.20, cy + r * 0.40,
+      cx,            bottomY,
     );
 
     path.close();
 
-    // Fill and outline
-    canvas.drawPath(path, paint);
+    canvas.drawPath(path, fillPaint);
     canvas.drawPath(path, outlinePaint);
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 
-} */
+}
 class MadPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
