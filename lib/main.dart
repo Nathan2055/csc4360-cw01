@@ -353,44 +353,39 @@ class HeartPainter extends CustomPainter {
     final cx = size.width / 2;
     final cy = size.height / 2;
 
-    final half = dim / 2;
-
-    final r = half * 0.95;
-    final bottomY = cy + r * 0.60;
-    final notchY = cy - r * 0.22;
+    final r = dim / 4; 
+    final bottomY = cy + r * 2; 
+    final notchY = cy - r * 0.6; 
 
     final path = Path();
+
     path.moveTo(cx, bottomY);
-    // Left lobe
+
+    // Left lobe 
     path.cubicTo(
-      cx - r * 1.20,
-      cy + r * 0.40,
-      cx - r * 1.20,
-      cy - r * 0.70,
-      cx,
-      notchY,
+      cx - r * 2, cy + r,   
+      cx - r * 2, cy - r,  
+      cx, notchY,         
     );
-    // Right lobe
+
+    // Right lobe 
     path.cubicTo(
-      cx + r * 1.20,
-      cy - r * 0.70,
-      cx + r * 1.20,
-      cy + r * 0.40,
-      cx,
-      bottomY,
+      cx + r * 2, cy - r,  
+      cx + r * 2, cy + r,   
+      cx, bottomY,          
     );
 
     path.close();
 
+    // Draw heart
     canvas.drawPath(path, fillPaint);
     canvas.drawPath(path, outlinePaint);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
-  }
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
+
 
 class AngryPainter extends CustomPainter {
   @override
