@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'package:collection/collection.dart';
 
 void main() {
   runApp(const ShapesDemoApp());
@@ -75,30 +74,6 @@ Column party() {
   );
 }
 
-// Define dropdown menu
-typedef IconEntry = DropdownMenuEntry<IconLabel>;
-
-enum IconLabel {
-  smiley('Smiley Face', Icons.sentiment_satisfied_outlined),
-  frowny('Frowny Face', Icons.sentiment_very_dissatisfied),
-  party('Party Face', Icons.celebration),
-  heart('Heart', Icons.favorite);
-
-  const IconLabel(this.label, this.icon);
-  final String label;
-  final IconData icon;
-
-  static final List<IconEntry> entries = UnmodifiableListView<IconEntry>(
-    values.map<IconEntry>(
-      (IconLabel icon) => IconEntry(
-        value: icon,
-        label: icon.label,
-        leadingIcon: Icon(icon.icon),
-      ),
-    ),
-  );
-}
-
 class ShapesDemoScreen extends StatelessWidget {
   const ShapesDemoScreen({super.key});
   @override
@@ -111,132 +86,12 @@ class ShapesDemoScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           //children: [smiley(), frowny(), party()],
           //only show party emoji for now
-          //children: [party()],
-          children: [],
+          children: [party()],
         ),
       ),
     );
   }
 }
-
-/*
-class _ShapesDemoAppState extends State<ShapesDemoApp> {
-  final TextEditingController iconController = TextEditingController();
-  IconLabel? selectedIcon;
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Shapes Drawing Demo',
-      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
-      //theme: ThemeData(colorSchemeSeed: Colors.green),
-      home: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      DropdownMenu<IconLabel>(
-                        controller: iconController,
-                        enableFilter: true,
-                        requestFocusOnTap: true,
-                        leadingIcon: const Icon(Icons.search),
-                        label: const Text('Icon'),
-                        inputDecorationTheme: const InputDecorationTheme(
-                          filled: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 5.0),
-                        ),
-                        onSelected: (IconLabel? icon) {
-                          setState(() {
-                            selectedIcon = icon;
-                          });
-                        },
-                        dropdownMenuEntries: IconLabel.entries,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              if (selectedIcon != null)
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('You selected a ${selectedIcon?.label}'),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Icon(selectedIcon?.icon),
-                      ),
-                    ],
-                  ),
-                )
-              else
-                const Text('Please select a color and an icon.'),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-*/
-
-/*
-class ShapesDemoScreen extends StatelessWidget {
-  final TextEditingController iconController = TextEditingController();
-  IconLabel? selectedIcon;
-
-  const ShapesDemoScreen({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Shapes Drawing Demo')),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          //children: [smiley(), frowny(), party()],
-          //only show party emoji for now
-          //children: [party()],
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                DropdownMenu<IconLabel>(
-                  controller: iconController,
-                  enableFilter: true,
-                  requestFocusOnTap: true,
-                  leadingIcon: const Icon(Icons.search),
-                  label: const Text('Icon'),
-                  inputDecorationTheme: const InputDecorationTheme(
-                    filled: true,
-                    contentPadding: EdgeInsets.symmetric(vertical: 5.0),
-                  ),
-                  onSelected: (IconLabel? icon) {
-                    setState(() {
-                      selectedIcon = icon;
-                    });
-                  },
-                  dropdownMenuEntries: IconLabel.entries,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-*/
 
 class SmileyPainter extends CustomPainter {
   @override
