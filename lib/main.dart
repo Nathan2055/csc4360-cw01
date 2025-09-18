@@ -55,6 +55,44 @@ Column frowny() {
   );
 }
 
+Column Mad() {
+  return Column(
+    children: [
+      Text(
+        'Mad Face',
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+      SizedBox(height: 10),
+      SizedBox(
+        height: 200,
+        child: CustomPaint(
+          painter: MadPainter(),
+          size: const Size(double.infinity, 200),
+        ),
+      ),
+    ],
+  );
+}
+
+/* Column HeartEmoji() {
+  return Column(
+    children: [
+      Text(
+        'Heart Emoji',
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+      SizedBox(height: 10),
+      SizedBox(
+        height: 200,
+        child: CustomPaint(
+          painter: HeartEmojiPainter(),
+          size: const Size(double.infinity, 200),
+        ),
+      ),
+    ],
+  );
+} */
+
 Column task1() {
   return Column(
     children: [
@@ -124,7 +162,8 @@ class ShapesDemoScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [smiley(),frowny(), task1(), task2(), task3()],
+          children: [Mad(),smiley(),frowny(), // HeartEmoji(),
+            task1(), task2(), task3()],
         ),
       ),
     );
@@ -204,6 +243,116 @@ class FrownyPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return false;
   }
+}
+/* class HeartEmojiPainter extends CustomPainter {
+ @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.red
+      ..style = PaintingStyle.fill;
+
+    final outlinePaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3;
+
+    final width = size.width;
+    final height = size.height;
+
+    final path = Path();
+
+    // A symmetric two-lobed heart with a top indentation (notch)
+    final bottomY = height * 0.78;
+    final notchY = height * 0.30;
+
+    path.moveTo(width / 2, bottomY);
+    // Left lobe up to notch
+    path.quadraticBezierTo(
+      width * 0.20, height * 0.62,
+      width * 0.25, height * 0.35,
+    );
+    path.quadraticBezierTo(
+      width * 0.30, height * 0.20,
+      width / 2, notchY,
+    );
+    // Right lobe back to bottom tip
+    path.quadraticBezierTo(
+      width * 0.70, height * 0.20,
+      width * 0.75, height * 0.35,
+    );
+    path.quadraticBezierTo(
+      width * 0.80, height * 0.62,
+      width / 2, bottomY,
+    );
+
+    path.close();
+
+    // Fill and outline
+    canvas.drawPath(path, paint);
+    canvas.drawPath(path, outlinePaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+
+} */
+class MadPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final radius = min(size.width, size.height) / 2;
+    final center = Offset(size.width / 2, size.height / 2);
+
+    // Face 
+    final facePaint = Paint()..color = Colors.red;
+    canvas.drawCircle(center, radius, facePaint);
+
+    // Angry mouth 
+    final mouthPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 10
+      ..color = Colors.black;
+    canvas.drawArc(
+      Rect.fromCenter(
+        center: Offset(center.dx, center.dy + radius * 0.25),
+        width: radius,
+        height: radius,
+      ),
+      pi,
+      pi,
+      false,
+      mouthPaint,
+    );
+
+    // Eyes 
+    final eyePaint = Paint()..color = Colors.black;
+    final leftEye = Offset(center.dx - radius / 2, center.dy - radius / 3);
+    final rightEye = Offset(center.dx + radius / 2, center.dy - radius / 3);
+    canvas.drawCircle(leftEye, 10, eyePaint);
+    canvas.drawCircle(rightEye, 10, eyePaint);
+
+    // Eyebrows (angled lines)
+    final browPaint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = 5
+      ..strokeCap = StrokeCap.round;
+
+
+    canvas.drawLine(
+      Offset(leftEye.dx - 15, leftEye.dy - 20), // outer edge
+      Offset(leftEye.dx + 15, leftEye.dy - 10), // inner edge
+      browPaint,
+    );
+
+    
+    canvas.drawLine(
+      Offset(rightEye.dx - 15, rightEye.dy - 10), // inner edge
+      Offset(rightEye.dx + 15, rightEye.dy - 20), // outer edge
+      browPaint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 class BasicShapesPainter extends CustomPainter {
