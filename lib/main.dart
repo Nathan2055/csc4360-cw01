@@ -10,39 +10,7 @@ class ShapesDemoApp extends StatefulWidget {
   const ShapesDemoApp({super.key});
   @override
   State<ShapesDemoApp> createState() => _ShapesDemoAppState();
-
-  /*
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Shapes Drawing Demo',
-      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
-      home: const ShapesDemoScreen(),
-    );
-  }
-  */
 }
-
-/*
-class ShapesDemoApp extends StatelessWidget {
-  const ShapesDemoApp({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Shapes Drawing Demo',
-      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
-      home: const ShapesDemoScreen(),
-    );
-  }
-}
-
-class DropdownMenuExample extends StatefulWidget {
-  const DropdownMenuExample({super.key});
-
-  @override
-  State<DropdownMenuExample> createState() => _DropdownMenuExampleState();
-}
-*/
 
 Column smiley() {
   return Column(
@@ -125,34 +93,6 @@ enum IconLabel {
   );
 }
 
-/*
-Row dropdown() {
-  return Row(
-    mainAxisSize: MainAxisSize.min,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: <Widget>[
-      DropdownMenu<IconLabel>(
-        controller: iconController,
-        enableFilter: true,
-        requestFocusOnTap: true,
-        leadingIcon: const Icon(Icons.search),
-        label: const Text('Icon'),
-        inputDecorationTheme: const InputDecorationTheme(
-          filled: true,
-          contentPadding: EdgeInsets.symmetric(vertical: 5.0),
-        ),
-        onSelected: (IconLabel? icon) {
-          setState(() {
-            selectedIcon = icon;
-          });
-        },
-        dropdownMenuEntries: IconLabel.entries,
-      ),
-    ],
-  );
-}
-*/
-
 class _ShapesDemoAppState extends State<ShapesDemoApp> {
   final TextEditingController iconController = TextEditingController();
   IconLabel? selectedIcon;
@@ -162,9 +102,10 @@ class _ShapesDemoAppState extends State<ShapesDemoApp> {
     return MaterialApp(
       title: 'Shapes Drawing Demo',
       theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
-      //theme: ThemeData(colorSchemeSeed: Colors.green),
       home: Scaffold(
-        body: SafeArea(
+        appBar: AppBar(title: const Text('Shapes Drawing Demo')),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
               Padding(
@@ -220,55 +161,6 @@ class _ShapesDemoAppState extends State<ShapesDemoApp> {
     );
   }
 }
-
-/*
-class ShapesDemoScreen extends StatelessWidget {
-  final TextEditingController iconController = TextEditingController();
-  IconLabel? selectedIcon;
-
-  const ShapesDemoScreen({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Shapes Drawing Demo')),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          //children: [smiley(), frowny(), party()],
-          //only show party emoji for now
-          //children: [party()],
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                DropdownMenu<IconLabel>(
-                  controller: iconController,
-                  enableFilter: true,
-                  requestFocusOnTap: true,
-                  leadingIcon: const Icon(Icons.search),
-                  label: const Text('Icon'),
-                  inputDecorationTheme: const InputDecorationTheme(
-                    filled: true,
-                    contentPadding: EdgeInsets.symmetric(vertical: 5.0),
-                  ),
-                  onSelected: (IconLabel? icon) {
-                    setState(() {
-                      selectedIcon = icon;
-                    });
-                  },
-                  dropdownMenuEntries: IconLabel.entries,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-*/
 
 class SmileyPainter extends CustomPainter {
   @override
